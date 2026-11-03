@@ -2,6 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <link
+      rel="shortcut icon"
+      href="favicon.ico"
+      type="image/x-icon"
+    />
     <title>Level Viewer</title>
     <style>
       * {
@@ -91,10 +96,16 @@
       #tabs {
         display: flex;
         gap: 2px;
+      }
+      #atabs {
+        display: flex;
         padding: 4px;
         background: #202025;
+        justify-content: space-between;
+        align-items: center;
       }
       .tab {
+        flex-grow: 2;
         flex: 1;
         display: none;
         min-height: 0;
@@ -215,12 +226,20 @@
     </aside>
 
     <main>
-      <div id="tabs">
-        <button class="on" data-tab="level">Level</button>
-        <button data-tab="sheets">
-          Sheets (map images to tile ids)
+      <div id="atabs">
+        <div id="tabs">
+          <button class="on" data-tab="level">Level</button>
+          <button data-tab="sheets">
+            Sheets (map images to tile ids)
+          </button>
+          <button data-tab="atlas">Tile atlas</button>
+        </div>
+        <button
+          id="installsw"
+          onclick="navigator.serviceWorker.register('/sw.js')"
+        >
+          installsw
         </button>
-        <button data-tab="atlas">Tile atlas</button>
       </div>
 
       <div class="tab active" id="tab-level">
@@ -277,7 +296,12 @@
         <div class="status" id="atlasStatus"></div>
       </div>
     </main>
-
+    <script>
+      ;(async () => {
+        await (navigator?.serviceWorker?.ready ?? new Promise())
+        installsw.style.display = "none"
+      })()
+    </script>
     <script src="tilesets.js"></script>
     <script src="viewer.js"></script>
   </body>
