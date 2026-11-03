@@ -636,7 +636,13 @@ let hoverText = ""
 // mouse
 {
   const cv = $("cv")
+  /**
+   * @type {{ moved: any; x: any; y: any; vx: any; vy: any; } | null}
+   */
   let drag = null
+  cv.addEventListener("contextmenu", (e) => {
+    e.preventDefault()
+  })
   cv.addEventListener("mousedown", (e) => {
     drag = {
       x: e.clientX,
