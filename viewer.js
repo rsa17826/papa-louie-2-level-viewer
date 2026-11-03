@@ -744,7 +744,8 @@ function clickAt(e) {
 }
 
 // ================= sheets tab =================
-let selSheet = SHEETS[0],
+const TILE_SHEETS = SHEETS.filter((e) => e.startsWith("tile_"))
+let selSheet = TILE_SHEETS[0],
   selCell = null
 function buildSheetList() {
   const s = $("sheetSel")
@@ -752,7 +753,7 @@ function buildSheetList() {
   const tset = cur.world ? cur.world.tileset : "default"
   const worldPlace = place[tset] || {}
 
-  for (const f of SHEETS) {
+  for (const f of TILE_SHEETS) {
     const im = images[f]
     // if (worldPlace[f])
     s.add(
@@ -1008,7 +1009,10 @@ const pkCv = $("pkCv")
 function pkFillSources() {
   const s = $("pkSrc")
   s.innerHTML = ""
-  for (const f of [...SHEETS, ...Object.keys(uploads)])
+  for (const f of [
+    ...SHEETS.filter((e) => !e.startsWith("tile_")),
+    ...Object.keys(uploads),
+  ])
     s.add(new Option(f, f))
   s.value = pk.src
 }
@@ -1353,8 +1357,7 @@ $("file").onchange = async (e) => {
   loadText(await e.target.files[0].text())
 }
 $("loadPaste").onclick = () => loadText($("paste").value)
-;(async () =>
-  loadText(await (await fetch("/levelViewer/full.xml")).text()))()
+;(async () => loadText(await (await fetch("/full.xml")).text()))()
 window.addEventListener("dragover", (e) => e.preventDefault())
 window.addEventListener("drop", async (e) => {
   e.preventDefault()
