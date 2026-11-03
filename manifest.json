@@ -1,0 +1,26 @@
+{
+  "short_name": "pl2wbaap",
+  "name": "Papa Louie 2: When Burgers Attack! Archipelago Client",
+  "icons": [
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/a.png",
+      "sizes": "1280x670",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "start_url": "/",
+  "scope": "/",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "display": "standalone",
+  "orientation": "landscape"
+}

@@ -443,7 +443,9 @@ function render() {
   const missing = new Set()
   const showMissing = $("ovMissing").checked,
     showSpecial = $("ovSpecial").checked,
-    showCol = $("ovCol").checked
+    showCol = $("ovCol").checked,
+    showMappedItemNames = $("showMappedItemNames").checked,
+    showUnmappedItemNames = $("showUnmappedItemNames").checked
   ctx.font = `${Math.max(6, (9 / view.z) * 1.4)}px sans-serif`
   for (let l = 0; l < L.layerCount; l++) {
     if (!vis[l]) continue
@@ -522,11 +524,21 @@ function render() {
         ctx.stroke()
       }
       ctx.fillStyle = "#fff"
-      ctx.fillText(
-        entLabel(kind, p.id),
-        p.x + half + T / 3,
-        p.y + half,
-      )
+      if (im) {
+        if (showMappedItemNames)
+          ctx.fillText(
+            entLabel(kind, p.id),
+            p.x + half + T / 3,
+            p.y + half,
+          )
+      } else {
+        if (showUnmappedItemNames)
+          ctx.fillText(
+            entLabel(kind, p.id),
+            p.x + half + T / 3,
+            p.y + half,
+          )
+      }
       ctx.fillStyle = color
     }
   }
@@ -1312,6 +1324,8 @@ document.querySelectorAll("#tabs button").forEach(
       if (b.dataset.tab === "entities") buildEntities()
     }),
 )
+localStorage.ovCol ??= "false"
+localStorage.showMappedItemNames ??= "false"
 ;[
   "ovMissing",
   "ovSpecial",
@@ -1321,7 +1335,17 @@ document.querySelectorAll("#tabs button").forEach(
   "ovItems",
   "ovObjects",
   "ovStart",
-].forEach((id) => ($(id).onchange = render))
+  "showMappedItemNames",
+  "showUnmappedItemNames",
+].forEach((id) => {
+  localStorage[id] ??= "true"
+  $(id).onchange = function () {
+    localStorage[id] = this.checked
+
+    render()
+  }
+  $(id).checked = localStorage[id] == "true"
+})
 $("world").onchange = (e) => selectWorld(Number(e.target.value))
 $("tsInput").value = localStorage.lv_ts
 $("colsInput").value = localStorage.lv_cols
