@@ -1019,7 +1019,7 @@ $("atlasCv").addEventListener("mousemove", (e) => {
       <div class="status" id="pkStatus">Drag a rectangle on the image to choose the sprite. offX/offY = where the sprite's top-left sits relative to the entity's tile top-left (px).</div>
     </div>
     <div class="scroll" id="entList" style="padding:6px"></div>`
-  $("tabs").parentElement.appendChild(tab)
+  document.querySelector("main").appendChild(tab)
 }
 
 const pk = { kind: null, id: null, src: null, rect: null, drag: null }
